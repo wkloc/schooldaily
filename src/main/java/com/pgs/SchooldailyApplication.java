@@ -8,5 +8,6 @@ public class SchooldailyApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SchooldailyApplication.class, args);
+		//test
 	}
 }
