@@ -14,7 +14,7 @@ public class AddClassTest {
     public void add() throws Exception {
         int a[] = {3, 4, 5, 7, 9};
         int b[] = {2, 4, 2, 8, 7};
-
+        fail();
         for (int index = 0; index < a.length; index++) {
             assertTrue((a[index] + b[index]) == addClass.add(a[index], b[index]));
         }
