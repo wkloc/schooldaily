@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+	config.vm.box = "ubuntu/trusty64"
+	config.vm.box_url = "https://atlas.hashicorp.com/ubuntu/boxes/trusty64"
+	config.vm.host_name = "postgresql" 
+	config.vm.provision :shell, path: "provision.sh"
+	
+	config.vm.provider "virtualbox" do |vb|
+		vb.customize ["modifyvm", :id, "--memory", "1024"]
+	end
+end

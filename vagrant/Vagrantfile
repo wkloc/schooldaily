@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |config|
+	config.vm.box = "schooldaily64"
+	config.vm.box_url = "file://schooldaily64.box"
+	config.vm.host_name = "postgresql"
+	config.vm.provision :shell, path: "provision.sh"
+	config.vm.network :forwarded_port, guest:5432, host:15432
+end
