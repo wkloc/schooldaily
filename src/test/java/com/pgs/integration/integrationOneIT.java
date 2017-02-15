@@ -6,10 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by wkloc on 2017-02-10.
+ * Created by wkloc on 2017-02-13.
  */
-public class integrationIT {
-
+public class integrationOneIT {
     @Test
     public void testFoo() throws Exception {
         One one = new One();
