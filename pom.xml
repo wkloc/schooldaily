@@ -185,9 +185,9 @@
                         <version>4.0.3</version>
                         <configuration>
                             <driver>org.postgresql.Driver</driver>
-                            <url>jdbc:postgresql://localhost:5432/schooldaily</url>
-                            <user>postgres</user>
-                            <password>admin</password>
+                            <url>jdbc:postgresql://localhost:15432/schooldaily</url>
+                            <user>pgsuser</user>
+                            <password>pgspass</password>
                             <locations>
                                 <location>db_migration</location>
                             </locations>
