@@ -1,0 +1,71 @@
+CI GUIDE (with Jenkins/Sonar/Sonarqube)
+
+#1 Download JENKINS (https://jenkins.io/index.html)
+#2 Copy it in specified deirectory, and then run: java -jar jenkins.war
+#3 Download and install SonarQube (https://docs.sonarqube.org/display/SONAR/Documentation)
+	#3.1 Important! -> Replace embedded InMemory DB with some supported e.g. Postgres (described in do)
+#5 Download and install SonarQube Scanner for Jenkins (according to instructions: https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Jenkins)
+	#5.1 I used sonar plugin from http://updates.jenkins-ci.org/download/plugins/
+	#5.2 Then I installed it via Advanced tab on Plugin Manager site
+#6 Configure Jenkins (System Configuration, Security Configuration)
+#7 Create some simple Maven Project (job) to be sure, global configuration is correct (job can be finished successfully)
+#8 Go to your project and prepare Maven build (with pom.xml) and configure sonar plugin
+	-> https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Maven#AnalyzingwithSonarQubeScannerforMaven-AnalyzingaMavenProject
+#9 Go to your project and prepare Maven build (with pom.xml) and configure Jacoco plugin, surefire plugin, failsafe plugin
+	#9.1 Following official doc may help you to do this:
+		-> http://www.jacoco.org/jacoco/trunk/doc/
+		-> http://maven.apache.org/components/surefire/maven-surefire-plugin/
+		-> http://maven.apache.org/surefire/maven-failsafe-plugin/
+	#9.2 Following tutorials, examples may help you to do this:
+		-> https://docs.sonarqube.org/display/PLUG/SonarJava
+		-> https://www.petrikainulainen.net/programming/maven/creating-code-coverage-reports-for-unit-and-integration-tests-with-the-jacoco-maven-plugin/
+		-> https://dzone.com/articles/integration-jenkins-jacoco-and-sonarqube
+		-> https://davidvaleri.wordpress.com/2013/09/06/tracking-integration-test-coverage-with-maven-and-sonarqube/
+		-> http://www.javaworld.com/article/2074515/core-java/unit-test-code-coverage-with-maven-and-jacoco.html
+	#9.3 Pease make sure that SonarQube is configured properly. Login as admin/admin go to Administrator -> Java section, and set proper Jacoco and JUnit paths there.
+#10 Configure Jenkins job with sonar analysis (e.g. mvn clean install sonar:sonar)
+#11 Login to SonarQube server (or enter there with Jenkins plugin) and check code coverage statistics. This should works fine.
+#12 Configure simle Pipeline (eg. build, verify, send notification, and copy *.jar file to a destination folder)
+	#12.1 Please note, taht there is very helpful Jenkins built-in "Pipeline Syntax" option
+	#12.2 Example pipeline may looks as follow:
+
+node {
+   def mvnHome
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      //git 'https://github.com/wkloc/schooldaily.git'
+      git branch: 'develop', credentialsId: '9f9c7b63-096e-4ff5-8a18-5cb394d15c0e', url: 'https://github.com/wkloc/schooldaily.git'
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured
+      // **       in the global configuration.
+      mvnHome = tool 'Maven'
+   }
+   stage('Build') {
+      // Run the maven build
+      if (isUnix()) {
+         sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+      } else {
+         bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+      }
+   }
+   stage('Publish Results') {
+      junit '**/target/surefire-reports/TEST-*.xml'
+      archive 'target/*.jar'
+   }
+   stage('Notify') {
+       mail bcc: '', body: 'This is test message from pipeline', cc: '', from: '', replyTo: '', subject: 'Pipeline Test', to: 'wkloc@pgs-soft.com'
+   }
+   stage('prepare JAR') {
+       bat '''rm "c:\\temp\\schooldaily-0.0.1-SNAPSHOT.jar"
+        cp "C:\\Users\\wkloc\\.jenkins\\jobs\\Pipeline3\\workspace\\target\\schooldaily-0.0.1-SNAPSHOT.jar" "c:\\temp"'''
+    }
+}
+
+
+################ OTHER INTERESTING LINKS ################
+Code Coverage by Unit Tests for Java Project
+ -> https://docs.sonarqube.org/display/PLUG/Code+Coverage+by+Unit+Tests+for+Java+Project
+
+Code Coverage by Integration Tests for Java Project
+ -> https://docs.sonarqube.org/display/PLUG/Code+Coverage+by+Integration+Tests+for+Java+Project
+ -> https://blog.sonarsource.com/measure-coverage-by-integration-tests-with-sonar-updated/
