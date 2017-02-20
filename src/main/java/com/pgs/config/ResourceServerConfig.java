@@ -33,9 +33,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-                    http.
-                    // The usual stuff
-                            exceptionHandling()
+                    http.exceptionHandling()
                     .accessDeniedHandler((request, response, accessDeniedException) -> {
                         response.sendError(HttpServletResponse.SC_FORBIDDEN);
                     })
