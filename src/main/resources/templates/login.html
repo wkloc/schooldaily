@@ -34,7 +34,7 @@
     <h1>Login</h1>
     <div class="container" ng-show="!home.authenticated">
         <div>
-            With Facebook: <a href="/login/github">click here</a>
+            With Github: <a href="/login/github">click here</a>
         </div>
     </div>
 
@@ -51,8 +51,7 @@
     angular.module("app", []).controller("home", function($http) {
         var self = this;
         $http.get("/user").success(function(data) {
-//            self.user = data.userAuthentication.details.name;
-            self.user = "cos";
+            self.user = data.userAuthentication.details.name;
             self.authenticated = true;
         }).error(function() {
             self.user = "N/A";

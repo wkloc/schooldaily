@@ -37,7 +37,6 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 @EnableOAuth2Client
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(6)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
