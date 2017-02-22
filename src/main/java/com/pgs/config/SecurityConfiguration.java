@@ -1,14 +1,11 @@
 package com.pgs.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -23,7 +20,6 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -118,23 +114,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-//    class ClientResources {
-//
-//        @NestedConfigurationProperty
-//        private AuthorizationCodeResourceDetails client = new AuthorizationCodeResourceDetails();
-//
-//        @NestedConfigurationProperty
-//        private ResourceServerProperties resource = new ResourceServerProperties();
-//
-//        public AuthorizationCodeResourceDetails getClient() {
-//            return client;
-//        }
-//
-//        public ResourceServerProperties getResource() {
-//            return resource;
-//        }
-//    }
-
     @Bean
     @ConfigurationProperties("github")
     public ClientResources github() {
@@ -146,31 +125,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public ClientResources facebook() {
         return new ClientResources();
     }
-
-//    @Bean
-//    @ConfigurationProperties("github.client")
-//    public AuthorizationCodeResourceDetails github() {
-//        return new AuthorizationCodeResourceDetails();
-//    }
-//
-//    @Bean
-//    @Primary
-//    @ConfigurationProperties("github.resource")
-//    public ResourceServerProperties githubResource() {
-//        return new ResourceServerProperties();
-//    }
-//
-//    @Bean
-//    @ConfigurationProperties("facebook.client")
-//    public AuthorizationCodeResourceDetails facebook() {
-//        return new AuthorizationCodeResourceDetails();
-//    }
-//
-//    @Bean
-//    @ConfigurationProperties("facebook.resource")
-//    public ResourceServerProperties facebookResource() {
-//        return new ResourceServerProperties();
-//    }
 
     @Bean
     public FilterRegistrationBean oauth2ClientFilterRegistration(
