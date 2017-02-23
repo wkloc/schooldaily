@@ -18,6 +18,28 @@ public class Users {
     @Size(min = 0, max = 500)
     private String password;
 
+    @Column(name = EMAIL, length = 80)
+    private String email;
+    public static final String EMAIL = "email";
+
+
+    /** FACEBOOK ELEMENTS **/
+    @Column(name = FACEBOOK_ID, length = 500)
+    private String facebookId;
+    public static final String FACEBOOK_ID = "facebook_id";
+
+    @Column(name = FACEBOOK_IMAGE, length = 500)
+    private String facebookImage;
+    public static final String FACEBOOK_IMAGE = "facebook_image";
+
+    @Column
+    @Size(min = 0, max = 50)
+    private String firstname;
+
+    @Column
+    @Size(min = 0, max = 50)
+    private String lastname;
+
     @ManyToMany
     @JoinTable(
             name = "user_authority",
@@ -49,29 +71,44 @@ public class Users {
         this.authorities = authorities;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Users user = (Users) o;
-
-        if (!username.equals(user.username)) return false;
-
-        return true;
+    public String getEmail() {
+        return email;
     }
 
-    @Override
-    public int hashCode() {
-        return username.hashCode();
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorities=" + authorities +
-                '}';
+    public String getFacebookId() {
+        return facebookId;
     }
+
+    public String getFacebookImage() {
+        return facebookImage;
+    }
+
+    public void setFacebookImage(String facebookImage) {
+        this.facebookImage = facebookImage;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
 }

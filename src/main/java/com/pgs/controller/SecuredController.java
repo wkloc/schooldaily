@@ -1,6 +1,8 @@
 package com.pgs.controller;
 
 import com.pgs.dto.FacebookUserDTO;
+import com.pgs.service.UserTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/secure")
 public class SecuredController {
+
+    @Autowired
+    UserTaskService userTaskService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String hello() {
@@ -46,7 +51,14 @@ public class SecuredController {
         String [] fields = { "id", "email",  "first_name", "last_name" };
         User user =  facebook.fetchObject("me", User.class, fields);
 
-        return new FacebookUserDTO(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName()).toString();
+        FacebookUserDTO facebookUserDTO = new FacebookUserDTO(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
+
+        if (authentication.isAuthenticated()) {
+            userTaskService.loginOrCreateFacebookUser(facebookUserDTO);
+        }
+
+        return facebookUserDTO.toString();
+
     }
 
     @RequestMapping({"/user", "/me"})
