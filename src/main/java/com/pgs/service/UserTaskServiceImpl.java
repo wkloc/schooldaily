@@ -35,6 +35,8 @@ public class UserTaskServiceImpl implements UserTaskService {
 			user.setUsername(facebookUserId);
 			user.setPassword(UUID.randomUUID().toString());
 			user.setEmail(dto.getEmail());
+			user.setFirstname(dto.getFirstname());
+			user.setLastname(dto.getLastname());
 
 			user.setFacebookId(facebookUserId);
 			user.setFacebookImage("//graph.facebook.com/_PIC_URL_/picture?height=285&width=285".replace("_PIC_URL_", facebookUserId));
