@@ -10,6 +10,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.User;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -21,6 +26,25 @@ public class UserTaskServiceImpl implements UserTaskService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Override
+	public void checkFacebookUserInDB(Authentication authentication){
+		if (authentication.isAuthenticated()){
+
+			OAuth2Authentication auth = (OAuth2Authentication) authentication;
+			String userDetailsFromAuthentication = ((OAuth2Authentication) auth.getUserAuthentication()).getUserAuthentication().getDetails().toString();
+
+			String tokenValue = ((OAuth2AuthenticationDetails) ((OAuth2Authentication) auth.getUserAuthentication()).getDetails()).getTokenValue();
+			Facebook facebook = new FacebookTemplate(tokenValue, "schooldaily");
+
+			String [] fields = { "id", "email",  "first_name", "last_name" };
+			User user =  facebook.fetchObject("me", User.class, fields);
+
+			FacebookUserDTO facebookUserDTO = new FacebookUserDTO(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
+			loginOrCreateFacebookUser(facebookUserDTO);
+		}
+
+	}
 
 	@Override
 	public void loginOrCreateFacebookUser(FacebookUserDTO dto) {
