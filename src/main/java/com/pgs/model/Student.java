@@ -1,8 +1,6 @@
 package com.pgs.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by wkloc on 2017-02-20.
@@ -11,11 +9,14 @@ import javax.persistence.Id;
 public class Student {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable=false)
+    private Integer id;
 
+    @Column(name = "firstname")
     private String firstName;
 
+    @Column(name = "lastname")
     private String lastName;
 
     private Student() {};
@@ -25,11 +26,11 @@ public class Student {
         this.lastName = lName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
