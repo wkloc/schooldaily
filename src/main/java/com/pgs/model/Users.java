@@ -18,19 +18,8 @@ public class Users {
     @Size(min = 0, max = 500)
     private String password;
 
-    @Column(name = EMAIL, length = 80)
+    @Column(name = "email", length = 80)
     private String email;
-    public static final String EMAIL = "email";
-
-
-    /** FACEBOOK ELEMENTS **/
-    @Column(name = FACEBOOK_ID, length = 500)
-    private String facebookId;
-    public static final String FACEBOOK_ID = "facebook_id";
-
-    @Column(name = FACEBOOK_IMAGE, length = 500)
-    private String facebookImage;
-    public static final String FACEBOOK_IMAGE = "facebook_image";
 
     @Column
     @Size(min = 0, max = 50)
@@ -39,6 +28,18 @@ public class Users {
     @Column
     @Size(min = 0, max = 50)
     private String lastname;
+
+    @Column(name = "facebook_id", length = 500)
+    private String facebookId;
+
+    @Column(name = "facebook_image", length = 500)
+    private String facebookImage;
+
+    @Column(name = "github_id", length = 500)
+    private String githubId;
+
+    @Column(name = "github_image", length = 500)
+    private String githubImage;
 
     @ManyToMany
     @JoinTable(
@@ -79,22 +80,6 @@ public class Users {
         this.email = email;
     }
 
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public String getFacebookImage() {
-        return facebookImage;
-    }
-
-    public void setFacebookImage(String facebookImage) {
-        this.facebookImage = facebookImage;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-    }
-
     public String getFirstname() {
         return firstname;
     }
@@ -111,4 +96,35 @@ public class Users {
         this.lastname = lastname;
     }
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
+    public String getFacebookImage() {
+        return facebookImage;
+    }
+
+    public void setFacebookImage(String facebookImage) {
+        this.facebookImage = facebookImage;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public String getGithubId() {
+        return githubId;
+    }
+
+    public void setGithubId(String githubId) {
+        this.githubId = githubId;
+    }
+
+    public String getGithubImage() {
+        return githubImage;
+    }
+
+    public void setGithubImage(String githubImage) {
+        this.githubImage = githubImage;
+    }
 }

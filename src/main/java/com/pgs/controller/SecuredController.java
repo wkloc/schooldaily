@@ -19,8 +19,8 @@ import java.util.Map;
 @RequestMapping("/secure")
 public class SecuredController {
 
-    @Autowired
-    UserTaskService userTaskService;
+//    @Autowired
+//    UserTaskService userTaskService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String hello() {

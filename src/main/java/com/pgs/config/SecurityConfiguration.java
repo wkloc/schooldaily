@@ -2,6 +2,7 @@ package com.pgs.config;
 
 import com.pgs.filter.CustomOAuth2ClientAuthenticationProcessingFilter;
 import com.pgs.handler.CustomAuthenticationSuccessHandler;
+import com.pgs.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -42,6 +43,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserTaskService userTaskService;
 
     @Autowired
     OAuth2ClientContext oauth2ClientContext;
@@ -103,14 +107,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(facebook(), "/login/facebook"));
-        filters.add(ssoFilter(github(), "/login/github"));
+        filters.add(ssoFilter(facebook(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/facebook", "facebook")));
+        filters.add(ssoFilter(github(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/github","github")));
         filter.setFilters(filters);
         return filter;
     }
 
-    private Filter ssoFilter(ClientResources client, String path) {
-        OAuth2ClientAuthenticationProcessingFilter filter = new CustomOAuth2ClientAuthenticationProcessingFilter(path);
+    private Filter ssoFilter(ClientResources client, OAuth2ClientAuthenticationProcessingFilter filter) {
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
         filter.setRestTemplate(template);
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(

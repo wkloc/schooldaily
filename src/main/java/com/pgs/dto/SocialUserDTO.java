@@ -1,33 +1,29 @@
 package com.pgs.dto;
 
+import com.pgs.enums.ESocialType;
+
 /**
  * Created by mmalek on 2/22/2017.
  */
-public class FacebookUserDTO {
+public class SocialUserDTO {
 
     private String id;
     private String email;
     private String firstname;
     private String lastname;
+    private String image;
+    private ESocialType socialType;
 
-    public FacebookUserDTO() {
+    public SocialUserDTO() {
     }
 
-    public FacebookUserDTO(String id, String email, String firstname, String lastname) {
+    public SocialUserDTO(String id, String email, String firstname, String lastname, String image, ESocialType socialType) {
         this.id = id;
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
-    }
-
-    @Override
-    public String toString() {
-        return "FacebookUserDTO{" +
-                "id='" + id + '\'' +
-                ", email='" + email + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
+        this.image = image;
+        this.socialType = socialType;
     }
 
     public String getId() {
@@ -60,5 +56,21 @@ public class FacebookUserDTO {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ESocialType getSocialType() {
+        return socialType;
+    }
+
+    public void setSocialType(ESocialType socialType) {
+        this.socialType = socialType;
     }
 }

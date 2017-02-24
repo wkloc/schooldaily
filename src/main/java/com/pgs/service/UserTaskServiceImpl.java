@@ -1,6 +1,7 @@
 package com.pgs.service;
 
-import com.pgs.dto.FacebookUserDTO;
+import com.pgs.dto.SocialUserDTO;
+import com.pgs.enums.ESocialType;
 import com.pgs.model.Authority;
 import com.pgs.model.SocialUserDetails;
 import com.pgs.model.Users;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 @Component("userTaskService")
@@ -30,47 +32,62 @@ public class UserTaskServiceImpl implements UserTaskService {
 	@Override
 	public void checkFacebookUserInDB(Authentication authentication){
 		if (authentication.isAuthenticated()){
-
-			OAuth2Authentication auth = (OAuth2Authentication) authentication;
-			String userDetailsFromAuthentication = ((OAuth2Authentication) auth.getUserAuthentication()).getUserAuthentication().getDetails().toString();
-
-			String tokenValue = ((OAuth2AuthenticationDetails) ((OAuth2Authentication) auth.getUserAuthentication()).getDetails()).getTokenValue();
+			String tokenValue = ((OAuth2AuthenticationDetails)((OAuth2Authentication) authentication).getDetails()).getTokenValue();
 			Facebook facebook = new FacebookTemplate(tokenValue, "schooldaily");
-
 			String [] fields = { "id", "email",  "first_name", "last_name" };
 			User user =  facebook.fetchObject("me", User.class, fields);
-
-			FacebookUserDTO facebookUserDTO = new FacebookUserDTO(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName());
-			loginOrCreateFacebookUser(facebookUserDTO);
+			SocialUserDTO facebookUserDTO = new SocialUserDTO(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), null, ESocialType.FACEBOOK);
+			loginOrCreateUser(facebookUserDTO);
 		}
-
 	}
 
 	@Override
-	public void loginOrCreateFacebookUser(FacebookUserDTO dto) {
-
-		Users user = this.userRepository.findByFacebookId(dto.getId());
-
-		if(null == user){
-			user = new Users();
-
-			String facebookUserId = dto.getId();
-
-			user.setUsername(facebookUserId);
-			user.setPassword(UUID.randomUUID().toString());
-			user.setEmail(dto.getEmail());
-			user.setFirstname(dto.getFirstname());
-			user.setLastname(dto.getLastname());
-
-			user.setFacebookId(facebookUserId);
-			user.setFacebookImage("//graph.facebook.com/_PIC_URL_/picture?height=285&width=285".replace("_PIC_URL_", facebookUserId));
-
-			Authority authority = new Authority();
-			authority.setName("ROLE_USER");
-			user.setAuthorities(Collections.singleton(authority));
-
-			user = this.userRepository.save(user);
+	public void checkGithubUserInDB(Authentication authentication) {
+		if (authentication.isAuthenticated()){
+			LinkedHashMap<String, Object> details = (LinkedHashMap<String, Object>) ((OAuth2Authentication) authentication).getUserAuthentication().getDetails();
+			String login = (String)details.get("login");
+			String id = details.get("id").toString();
+			String avatar_url = (String)details.get("avatar_url");
+			String email = (String)details.get("email");
+			String name = (String)details.get("name");
+			SocialUserDTO user = new SocialUserDTO(id, email, login, name, avatar_url, ESocialType.GITHUB);
+			loginOrCreateUser(user);
 		}
+	}
+
+	@Override
+	public void loginOrCreateUser(SocialUserDTO dto) {
+		ESocialType socialType = dto.getSocialType();
+		Users user = null;
+			if (socialType == ESocialType.GITHUB) {
+				user = this.userRepository.findByGithubId(dto.getId());
+			} else if (socialType == ESocialType.FACEBOOK) {
+				user = this.userRepository.findByFacebookId(dto.getId());
+			}
+
+			if (null == user) {
+				user = new Users();
+				user.setPassword(UUID.randomUUID().toString());
+				user.setEmail(dto.getEmail());
+				user.setFirstname(dto.getFirstname());
+				user.setLastname(dto.getLastname());
+
+				if (socialType == ESocialType.FACEBOOK) {
+					user.setUsername("FB_" + dto.getId());
+					user.setFacebookId(dto.getId());
+					user.setFacebookImage("//graph.facebook.com/_PIC_URL_/picture?height=285&width=285".replace("_PIC_URL_", dto.getId()));
+				} else if (socialType == ESocialType.GITHUB) {
+					user.setUsername("GH_" + dto.getId());
+					user.setGithubId(dto.getId());
+					user.setGithubImage(dto.getImage());
+				}
+
+				Authority authority = new Authority();
+				authority.setName("ROLE_USER");
+				user.setAuthorities(Collections.singleton(authority));
+
+				user = this.userRepository.save(user);
+			}
 
 		SocialUserDetails userDetails = new SocialUserDetails(user.getUsername(), Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
 		Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
