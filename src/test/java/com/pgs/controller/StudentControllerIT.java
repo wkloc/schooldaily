@@ -15,6 +15,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 /**
@@ -71,43 +74,46 @@ public class StudentControllerIT extends AbstractControllerIT {
         Student student = new Student("Jan", "Kowalski");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        int id = 0;
 
         //ADD
         HttpEntity<Student> requestPOST = new HttpEntity<>(student, headers);
         ResponseEntity responsePOST = restTemplate.postForEntity(URL + "student", requestPOST, String.class);
         assertTrue(responsePOST.getStatusCode().is2xxSuccessful());
-        assertTrue(Integer.valueOf(responsePOST.getBody().toString()).intValue() > 0);
-
-        responsePOST = restTemplate.getForEntity(
-                URL + "student/{id}", String.class, responsePOST.getBody().toString());
-        assertTrue(responsePOST.getStatusCode().is2xxSuccessful());
-        assertEquals("{\"id\":1,\"firstName\":\"Jan\",\"lastName\":\"Kowalski\"}", responsePOST.getBody().toString());
+        id = Integer.valueOf(responsePOST.getBody().toString()).intValue();
+        assertTrue(id > 0);
 
         //CHECK
-        ResponseEntity responseGET = restTemplate.getForEntity(
-                URL + "student/1", String.class);
-        assertTrue(responseGET.getStatusCode().is2xxSuccessful());
-        assertEquals("{\"id\":1,\"firstName\":\"Jan\",\"lastName\":\"Kowalski\"}", responseGET.getBody().toString());
+        Map<String, String> map = new HashMap();
+        map.put("id", String.valueOf(id));
+        ResponseEntity<Student> responseGET1 = restTemplate.getForEntity(
+                URL + "student/{id}", Student.class, map);
+        assertTrue(responseGET1.getStatusCode().is2xxSuccessful());
+        assertEquals("Jan", responseGET1.getBody().getFirstName());
+        assertEquals("Kowalski", responseGET1.getBody().getLastName());
 
         //UPDATE
-        student.setId(1);
+        student.setId(id);
         student.setFirstName("Janusz");
         HttpEntity<Student> requestPUT = new HttpEntity<>(student, headers);
         restTemplate.put(URL + "student", requestPUT);
 
         //CHECK
-        responseGET = restTemplate.getForEntity(
-                URL + "student/1", String.class);
-        assertTrue(responseGET.getStatusCode().is2xxSuccessful());
-        assertEquals("{\"id\":1,\"firstName\":\"Janusz\",\"lastName\":\"Kowalski\"}", responseGET.getBody().toString());
+        ResponseEntity<Student> responseGET2 = restTemplate.getForEntity(
+                URL + "student/{id}", Student.class, map);
+        assertTrue(responseGET2.getStatusCode().is2xxSuccessful());
+        assertEquals("Janusz", responseGET2.getBody().getFirstName());
+        assertEquals("Kowalski", responseGET2.getBody().getLastName());
 
         //DELETE
-        restTemplate.delete(URL + "student/1");
+        restTemplate.delete(URL + "student/{id}", map);
 
         //CHECK
-        responseGET = restTemplate.getForEntity(
-                URL + "student/1", String.class);
-        assertTrue(responseGET.getStatusCode().is4xxClientError());
-        assertTrue(responseGET.getBody().toString().contains("Student not found"));
+        ResponseEntity<Student> responseGET3 = restTemplate.getForEntity(
+                URL + "student/{id}", Student.class, map);
+        assertTrue(responseGET3.getStatusCode().is4xxClientError());
+        assertNull(responseGET3.getBody().getId());
+        assertNull(responseGET3.getBody().getFirstName());
+        assertNull(responseGET3.getBody().getLastName());
     }
 }
