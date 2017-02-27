@@ -1,7 +1,5 @@
 package com.pgs.controller;
 
-import com.pgs.service.UserTaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,9 +16,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/secure")
 public class SecuredController {
-
-//    @Autowired
-//    UserTaskService userTaskService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String hello() {

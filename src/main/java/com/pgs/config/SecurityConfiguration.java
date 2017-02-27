@@ -1,5 +1,6 @@
 package com.pgs.config;
 
+import com.pgs.enums.ESocialType;
 import com.pgs.filter.CustomOAuth2ClientAuthenticationProcessingFilter;
 import com.pgs.handler.CustomAuthenticationSuccessHandler;
 import com.pgs.service.UserTaskService;
@@ -107,8 +108,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
         List<Filter> filters = new ArrayList<>();
-        filters.add(ssoFilter(facebook(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/facebook", "facebook")));
-        filters.add(ssoFilter(github(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/github","github")));
+        filters.add(ssoFilter(facebook(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/facebook", ESocialType.FACEBOOK)));
+        filters.add(ssoFilter(github(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/github", ESocialType.GITHUB)));
         filter.setFilters(filters);
         return filter;
     }

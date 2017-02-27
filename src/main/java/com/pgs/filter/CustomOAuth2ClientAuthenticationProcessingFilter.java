@@ -1,5 +1,6 @@
 package com.pgs.filter;
 
+import com.pgs.enums.ESocialType;
 import com.pgs.service.UserTaskService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -16,9 +17,9 @@ import java.io.IOException;
 public class CustomOAuth2ClientAuthenticationProcessingFilter extends OAuth2ClientAuthenticationProcessingFilter {
 
     private UserTaskService userTaskService;
-    private String social;
+    private ESocialType social;
 
-    public CustomOAuth2ClientAuthenticationProcessingFilter(UserTaskService userTaskService, String path, String social) {
+    public CustomOAuth2ClientAuthenticationProcessingFilter(UserTaskService userTaskService, String path, ESocialType social) {
         super(path);
         this.userTaskService = userTaskService;
         this.social = social;
@@ -27,10 +28,9 @@ public class CustomOAuth2ClientAuthenticationProcessingFilter extends OAuth2Clie
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authentication);
-        if (social.equals("facebook")) {
+        if (social == ESocialType.FACEBOOK) {
             userTaskService.checkFacebookUserInDB(authentication);
-        } else {
-//            System.out.println("github");
+        } else if (social == ESocialType.GITHUB) {
             userTaskService.checkGithubUserInDB(authentication);
         }
     }
