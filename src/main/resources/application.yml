@@ -1,3 +1,4 @@
+#schooldaily2017@gmail.com/pgsadmin2017x2
 facebook:
   client:
     clientId: 223400851399755
@@ -7,28 +8,33 @@ facebook:
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
+    scope:
+      - publish_actions
   resource:
     userInfoUri: https://graph.facebook.com/me
 
+#schooldaily2017@gmail.com/pgsadmin2017x2
 github:
   client:
-    clientId: 5bbc0b3998db968166cf
-    clientSecret: c00a8153508e590be928450969780e9a63da56bb
+    clientId: 5fb1c9a2e16826c0a73b
+    clientSecret: 08c043e884293474f11389bc66445a965ac71735
     accessTokenUri: https://github.com/login/oauth/access_token
     userAuthorizationUri: https://github.com/login/oauth/authorize
     clientAuthenticationScheme: form
+    scope:
+      - user:email
   resource:
     userInfoUri: https://api.github.com/user
 
+#schooldaily2017@gmail.com/pgsadmin2017x2
 google:
   client:
-    clientId: 675990421281-1us6lnsedhmfebaa03dkppttpdcagegg.apps.googleusercontent.com
-    clientSecret: jYJLoYM8MKhc5ZpIj8z9zayK
+    clientId: 978955442750-toei3c6ngd3iid1u07j8as8gfb6kinmk.apps.googleusercontent.com
+    clientSecret: SMgoi4tn9G_9B0WjHfoMVrOL
     accessTokenUri: https://www.googleapis.com/oauth2/v4/token
     userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
     clientAuthenticationScheme: form
     scope:
-      - openid
       - email
       - profile
   resource:

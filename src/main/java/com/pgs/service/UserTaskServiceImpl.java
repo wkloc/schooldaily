@@ -62,9 +62,9 @@ public class UserTaskServiceImpl implements UserTaskService {
 			String login = details.get("sub");
 			String id = details.get("sub");
 			String avatar_url = details.get("picture");
-			String email = (String) details.get("email");
-			String firstname = (String) details.get("given_name");
-			String lastname = (String) details.get("family_name");
+			String email = details.get("email");
+			String firstname = details.get("given_name");
+			String lastname = details.get("family_name");
 			SocialUserDTO user = new SocialUserDTO(id, email, firstname, lastname, avatar_url, ESocialType.GOOGLE);
 			loginOrCreateUser(user);
 		}
