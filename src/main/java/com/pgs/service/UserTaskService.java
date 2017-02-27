@@ -11,4 +11,6 @@ public interface UserTaskService {
     void checkGithubUserInDB(Authentication authentication);
 
     void loginOrCreateUser(SocialUserDTO dto);
+
+    void checkGoogleUserInDB(Authentication authentication);
 }

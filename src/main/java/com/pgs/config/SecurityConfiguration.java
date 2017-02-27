@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(facebook(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/facebook", ESocialType.FACEBOOK)));
         filters.add(ssoFilter(github(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/github", ESocialType.GITHUB)));
+        filters.add(ssoFilter(google(), new CustomOAuth2ClientAuthenticationProcessingFilter(userTaskService, "/login/google", ESocialType.GOOGLE)));
         filter.setFilters(filters);
         return filter;
     }
@@ -133,6 +134,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     @ConfigurationProperties("facebook")
     public ClientResources facebook() {
+        return new ClientResources();
+    }
+
+    @Bean
+    @ConfigurationProperties("google")
+    public ClientResources google() {
         return new ClientResources();
     }
 

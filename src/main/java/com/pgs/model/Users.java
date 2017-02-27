@@ -41,6 +41,12 @@ public class Users {
     @Column(name = "github_image", length = 500)
     private String githubImage;
 
+    @Column(name = "google_id", length = 500)
+    private String googleId;
+
+    @Column(name = "google_image", length = 500)
+    private String googleImage;
+
     @ManyToMany
     @JoinTable(
             name = "user_authority",
@@ -126,5 +132,21 @@ public class Users {
 
     public void setGithubImage(String githubImage) {
         this.githubImage = githubImage;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getGoogleImage() {
+        return googleImage;
+    }
+
+    public void setGoogleImage(String googleImage) {
+        this.googleImage = googleImage;
     }
 }

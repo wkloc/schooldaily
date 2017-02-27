@@ -56,6 +56,21 @@ public class UserTaskServiceImpl implements UserTaskService {
 	}
 
 	@Override
+	public void checkGoogleUserInDB(Authentication authentication) {
+		if (authentication.isAuthenticated()) {
+			LinkedHashMap<String, String> details = (LinkedHashMap<String, String>) ((OAuth2Authentication) authentication).getUserAuthentication().getDetails();
+			String login = details.get("sub");
+			String id = details.get("sub");
+			String avatar_url = details.get("picture");
+			String email = (String) details.get("email");
+			String firstname = (String) details.get("given_name");
+			String lastname = (String) details.get("family_name");
+			SocialUserDTO user = new SocialUserDTO(id, email, firstname, lastname, avatar_url, ESocialType.GOOGLE);
+			loginOrCreateUser(user);
+		}
+	}
+
+	@Override
 	public void loginOrCreateUser(SocialUserDTO dto) {
 		ESocialType socialType = dto.getSocialType();
 		Users user = null;
@@ -63,6 +78,8 @@ public class UserTaskServiceImpl implements UserTaskService {
 				user = this.userRepository.findByGithubId(dto.getId());
 			} else if (socialType == ESocialType.FACEBOOK) {
 				user = this.userRepository.findByFacebookId(dto.getId());
+			} else if (socialType == ESocialType.GOOGLE) {
+				user = this.userRepository.findByGoogleId(dto.getId());
 			}
 
 			if (null == user) {
@@ -80,6 +97,10 @@ public class UserTaskServiceImpl implements UserTaskService {
 					user.setUsername("GH_" + dto.getId());
 					user.setGithubId(dto.getId());
 					user.setGithubImage(dto.getImage());
+				} else if (socialType == ESocialType.GOOGLE) {
+					user.setUsername("GL_" + dto.getId());
+					user.setGoogleId(dto.getId());
+					user.setGoogleImage(dto.getImage());
 				}
 
 				Authority authority = new Authority();

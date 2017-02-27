@@ -32,6 +32,8 @@ public class CustomOAuth2ClientAuthenticationProcessingFilter extends OAuth2Clie
             userTaskService.checkFacebookUserInDB(authentication);
         } else if (social == ESocialType.GITHUB) {
             userTaskService.checkGithubUserInDB(authentication);
+        } else if (social == ESocialType.GOOGLE) {
+            userTaskService.checkGoogleUserInDB(authentication);
         }
     }
 }
