@@ -1,0 +1,2 @@
+ALTER TABLE users ADD github_id VARCHAR(500) NULL;
+ALTER TABLE users ADD github_image VARCHAR(500) NULL;

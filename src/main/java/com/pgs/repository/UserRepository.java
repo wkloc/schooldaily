@@ -13,4 +13,9 @@ public interface UserRepository extends JpaRepository<Users, String> {
     @Query("SELECT u FROM Users u WHERE LOWER(u.username) = LOWER(:username)")
     Users findByUsernameCaseInsensitive(@Param("username") String username);
 
+    Users findByFacebookId(String facebookId);
+
+    Users findByGithubId(String githubId);
+
+    Users findByGoogleId(String id);
 }
