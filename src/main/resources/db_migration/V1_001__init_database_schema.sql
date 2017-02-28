@@ -13,13 +13,13 @@ CREATE TABLE authority (
 
 CREATE TABLE user_authority (
     id SERIAL NOT NULL,
-    username VARCHAR(50) NOT NULL,
+    user_id INTEGER NOT NULL,
     authority VARCHAR(50) NOT NULL,
-    FOREIGN KEY (username) REFERENCES users (username),
+    FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (authority) REFERENCES authority (name)
 );
 
-create unique index user_authority_idx_1 on user_authority (username, authority);
+create unique index user_authority_idx_1 on user_authority (id, authority);
 
 CREATE TABLE oauth_access_token (
   id SERIAL NOT NULL,
