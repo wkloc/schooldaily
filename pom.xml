@@ -25,6 +25,7 @@
         <skipIntegrationTests>false</skipIntegrationTests>
         <skipTests>false</skipTests>
         <postgresql.version>9.4-1200-jdbc41</postgresql.version>
+        <h2.version>1.4.193</h2.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,16 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -185,7 +196,6 @@
                 <configuration>
                     <!-- Sets the VM argument line used when unit tests are run. -->
                     <argLine>${surefireArgLine}</argLine>
-                    <skipTests>${skipTests}</skipTests>
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                     </excludes>
@@ -206,7 +216,6 @@
                         <configuration>
                             <!-- Sets the VM argument line used when integration tests are run. -->
                             <argLine>${failsafeArgLine}</argLine>
-                            <skipTests>${skipIntegrationTests}</skipTests>
                             <includes>
                                 <include>**/*IT.java</include>
                             </includes>

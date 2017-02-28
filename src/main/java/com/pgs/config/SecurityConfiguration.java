@@ -68,7 +68,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
             .antMatchers("/unsecure")
-            .antMatchers("/login/");
+            .antMatchers("/login/")
+            .antMatchers("/student/*")
+            .antMatchers("/student");
     }
 
     @Override
