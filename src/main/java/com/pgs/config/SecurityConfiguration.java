@@ -3,7 +3,7 @@ package com.pgs.config;
 import com.pgs.enums.ESocialType;
 import com.pgs.filter.CustomOAuth2ClientAuthenticationProcessingFilter;
 import com.pgs.handler.CustomAuthenticationSuccessHandler;
-import com.pgs.service.UserTaskService;
+import com.pgs.service.api.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -69,8 +69,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .ignoring()
             .antMatchers("/unsecure")
             .antMatchers("/login/")
-            .antMatchers("/student/*")
-            .antMatchers("/student");
+            .antMatchers("/questionnaire/*")
+            .antMatchers("/questionnaire")
+            .antMatchers("/questionnaireInstance/*")
+            .antMatchers("/questionnaireInstance");
     }
 
     @Override

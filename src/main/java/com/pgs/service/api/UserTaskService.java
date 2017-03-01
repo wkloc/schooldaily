@@ -1,4 +1,4 @@
-package com.pgs.service;
+package com.pgs.service.api;
 
 
 import com.pgs.dto.SocialUserDTO;

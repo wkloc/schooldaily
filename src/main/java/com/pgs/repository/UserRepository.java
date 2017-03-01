@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by mmalek on 2/14/2017.
  */
-public interface UserRepository extends JpaRepository<Users, String> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
     @Query("SELECT u FROM Users u WHERE LOWER(u.username) = LOWER(:username)")
     Users findByUsernameCaseInsensitive(@Param("username") String username);

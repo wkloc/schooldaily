@@ -30,6 +30,8 @@ public class CustomExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({RuntimeException.class, Exception.class})
-    public void handleGenericExceptions()  {
+    @ResponseBody
+    ErrorInfo handleGenericExceptions(HttpServletRequest request, Exception ex)  {
+        return new ErrorInfo(request.getRequestURL().toString(), ex);
     }
 }

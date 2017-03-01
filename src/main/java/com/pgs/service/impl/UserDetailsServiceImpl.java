@@ -1,4 +1,4 @@
-package com.pgs.service;
+package com.pgs.service.impl;
 
 import com.pgs.model.Authority;
 import com.pgs.model.Users;
@@ -21,9 +21,9 @@ import java.util.Collection;
  */
 
 @Component("userDetailsServices")
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
+    private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;

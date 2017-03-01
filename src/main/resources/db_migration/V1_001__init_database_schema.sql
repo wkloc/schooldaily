@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  id SERIAL NOT NULL,
+  id BIGSERIAL NOT NULL,
   username VARCHAR(50) NOT NULL unique,
   password VARCHAR(500),
   PRIMARY KEY (id)
@@ -13,7 +13,7 @@ CREATE TABLE authority (
 
 CREATE TABLE user_authority (
     id SERIAL NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id BIGINT NOT NULL,
     authority VARCHAR(50) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (authority) REFERENCES authority (name)

@@ -1,4 +1,4 @@
-package com.pgs.service;
+package com.pgs.service.impl;
 
 import com.pgs.dto.SocialUserDTO;
 import com.pgs.enums.ESocialType;
@@ -6,6 +6,7 @@ import com.pgs.model.Authority;
 import com.pgs.model.SocialUserDetails;
 import com.pgs.model.Users;
 import com.pgs.repository.UserRepository;
+import com.pgs.service.api.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

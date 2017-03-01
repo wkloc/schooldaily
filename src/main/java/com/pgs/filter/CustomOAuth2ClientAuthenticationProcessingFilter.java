@@ -1,7 +1,7 @@
 package com.pgs.filter;
 
 import com.pgs.enums.ESocialType;
-import com.pgs.service.UserTaskService;
+import com.pgs.service.api.UserTaskService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 

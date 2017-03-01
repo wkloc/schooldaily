@@ -12,7 +12,7 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(updatable = false, nullable = false)
     @Size(min = 0, max = 50)
@@ -57,11 +57,11 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "authority"))
     private Set<Authority> authorities;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
