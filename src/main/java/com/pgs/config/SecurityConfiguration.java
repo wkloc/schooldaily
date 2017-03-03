@@ -3,6 +3,7 @@ package com.pgs.config;
 import com.pgs.enums.ESocialType;
 import com.pgs.filter.CustomOAuth2ClientAuthenticationProcessingFilter;
 import com.pgs.handler.CustomAuthenticationSuccessHandler;
+import com.pgs.handler.CustomLogoutSuccessHandler;
 import com.pgs.service.api.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
@@ -27,6 +28,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilt
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
@@ -50,6 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     OAuth2ClientContext oauth2ClientContext;
+
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -89,14 +94,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//            .authorizeRequests()
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin().loginPage("/login").permitAll()
-//            .and()
-//            .logout().logoutUrl("/oauth/logout").permitAll()
-//            .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-
                 .antMatcher("/**")
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
@@ -105,8 +102,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and().formLogin().loginPage("/login").permitAll().successHandler(customAuthenticationSuccessHandler())
-                .and().logout().logoutSuccessUrl("/").permitAll()
-                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and()
+                .logout()
+                .logoutUrl("/oauth/logout").logoutSuccessUrl("/login")
+                .logoutSuccessHandler(customLogoutSuccessHandler)
+//                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and()
+                .csrf()
+                .requireCsrfProtectionMatcher(new AntPathRequestMatcher("/oauth/authorize"))
+                .disable();
     }
 
     private Filter ssoFilter() {
