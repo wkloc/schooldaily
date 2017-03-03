@@ -46,6 +46,6 @@ public class CustomLogoutSuccessHandler
                     this.tokenStore.removeAccessToken(oAuth2AccessToken);
                 }
             }
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.sendRedirect("/unsecure/logoutmessage");
     }
 }
