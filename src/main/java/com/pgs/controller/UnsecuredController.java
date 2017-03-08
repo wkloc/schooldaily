@@ -26,7 +26,7 @@ public class UnsecuredController {
         return "LOGOUT message!";
     }
 
-    @Value("${info.foo}")
+    @Value("${mymessage}")
     private String message;
 
     @RequestMapping("/message")
