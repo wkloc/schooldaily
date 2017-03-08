@@ -1,5 +1,6 @@
 package com.pgs.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +24,14 @@ public class UnsecuredController {
     @ResponseBody
     public String logoutMessage() {
         return "LOGOUT message!";
+    }
+
+    @Value("${info.foo}")
+    private String message;
+
+    @RequestMapping("/message")
+    @ResponseBody
+    String getMessage() {
+        return this.message;
     }
 }
