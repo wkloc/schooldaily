@@ -1,5 +1,24 @@
 #!/bin/sh -e
 
+#ETH0:x VIRTUAL INTERFACE
+
+echo "Configuring network interfaces"
+for i in 1 2 3 4 5
+do
+	sudo cat > "/etc/network/interfaces.d/eth0:$i.cfg"
+
+	IP=$(((10*i)+4))
+	echo "auto eth0:$i" > "/etc/network/interfaces.d/eth0:$i.cfg"
+	echo "iface eth0:$i inet static" >> "/etc/network/interfaces.d/eth0:$i.cfg"
+	echo "address 192.168.1.$IP" >> "/etc/network/interfaces.d/eth0:$i.cfg"
+	echo "netmask 255.255.255.0" >> "/etc/network/interfaces.d/eth0:$i.cfg"
+	echo "network 192.168.1.1" >> "/etc/network/interfaces.d/eth0:$i.cfg"
+
+	sudo ifup eth0:$i
+done
+
+echo "Network interfaces are up"
+
 #POSTGRES
 
 echo "Installing PostreSQL"
