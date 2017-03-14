@@ -148,6 +148,37 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>4.0.3</version>
+                <configuration>
+                    <driver>org.postgresql.Driver</driver>
+                    <url>jdbc:postgresql://localhost:15432/schooldaily</url>
+                    <user>pgsuser</user>
+                    <password>pgspass</password>
+                    <locations>
+                        <location>db_migration</location>
+                    </locations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>migrate-database</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${postgresql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
@@ -248,47 +279,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>db-maintain</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.flywaydb</groupId>
-                        <artifactId>flyway-maven-plugin</artifactId>
-                        <version>4.0.3</version>
-                        <configuration>
-                            <driver>org.postgresql.Driver</driver>
-                            <url>jdbc:postgresql://localhost:15432/schooldaily</url>
-                            <user>pgsuser</user>
-                            <password>pgspass</password>
-                            <locations>
-                                <location>db_migration</location>
-                            </locations>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>migrate-database</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>migrate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.postgresql</groupId>
-                                <artifactId>postgresql</artifactId>
-                                <version>${postgresql.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
