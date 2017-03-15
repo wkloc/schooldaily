@@ -1,5 +1,10 @@
+#clean install spring-boot:run -Dactiveprofile=dev
+#clean install spring-boot:run -Dactiveprofile=prod
 spring:
   application:
     name: schooldaily
   profiles:
-    active: default
+    active: ${activeprofile}
+  cloud:
+      config:
+        uri: http://localhost:8890
