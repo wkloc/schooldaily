@@ -7,4 +7,4 @@ spring:
     active: ${activeprofile}
   cloud:
       config:
-        uri: http://localhost:8890
+        uri: https://localhost:8440
