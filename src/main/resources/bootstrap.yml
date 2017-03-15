@@ -1,5 +1,5 @@
-#clean install spring-boot:run -Dactiveprofile=dev
-#clean install spring-boot:run -Dactiveprofile=prod
+#spring-boot:run -Dactiveprofile=dev
+#spring-boot:run -Dactiveprofile=prod
 spring:
   application:
     name: schooldaily
