@@ -1,0 +1,30 @@
+
+1. run spring cloud config server (which connect to github for configs files)
+2. run schooldaily with proper profile (dev, prod)
+3. run schooldaily_client with proper profile (dev, prod)
+
+via browser hit https://localhost:8445/client/user (dev)
+                https://localhost:8445/client/user2 (dev)
+                https://localhost:8445/client/logout
+
+postman:
+- to get access token with grant_type password
+POST https://localhost:8443/oauth/token?username=user&password=admin&grant_type=password
+with Authorization:
+    type: Basic Auth
+    username: schooldaily_client
+    password: secret
+
+- to get access token with grant_type refresh_token
+POST https://localhost:8443/oauth/token?refresh_token=100a5e4b-66fe-4df9-b3cc-605f15bd9044&grant_type=refresh_token
+with Authorization:
+    type: Basic Auth
+    username: schooldaily_client
+    password: secret
+
+- to get to secured end point with access token
+GET https://localhost:8443/secure/user2
+Headers:
+Authorization: Bearer 6f714b4b-9404-4822-9567-c5f412a07c3b (access token get previously)
+
+
