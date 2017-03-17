@@ -1,5 +1,12 @@
+#spring-boot:run -Dactiveprofile=dev
+#spring-boot:run -Dactiveprofile=prod
 spring:
   application:
     name: schooldaily
   profiles:
-    active: default
+    active: ${activeprofile}
+  cloud:
+      config:
+        uri: https://localhost:8440
+        username: cloudserveruser
+        password: cloudserverpassword
