@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-#ETH0:x VIRTUAL INTERFACE
+#ETH0:x VIRTUAL INTERFACES
 
 echo "Configuring network interfaces"
 for i in 1 2 3 4 5
@@ -46,7 +46,7 @@ PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 PG_HBA="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
 PG_DIR="/var/lib/postgresql/$PG_VERSION/main"
 
-# Edit postgresql.conf to change listen address to '*':
+# Edit main postgresql.conf to change listen address to '*':
 sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$PG_CONF"
 
 # Append to pg_hba.conf to add password auth:
@@ -58,6 +58,29 @@ echo "client_encoding = utf8" >> "$PG_CONF"
 service postgresql restart
 
 echo "Successfully created PostgreSQL dev virtual machine."
+
+# POSTGRESQL CLUSTER
+
+echo "Installing PostgresSQL cluster"
+
+sudo pg_createcluster -D /var/lib/postgresql/9.4/node1 9.4 node1
+
+NODE1_PG_CONF="/etc/postgresql/$PG_VERSION/node1/postgresql.conf"
+NODE1_PG_HBA="/etc/postgresql/$PG_VERSION/node1/pg_hba.conf"
+NODE1_PG_DIR="/var/lib/postgresql/$PG_VERSION/node1"
+
+# Edit node1 postgresql.conf to change listen address to '*':
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$NODE1_PG_CONF"
+
+# Append to pg_hba.conf to add password auth:
+echo "host    all             all             all                     md5" >> "$NODE1_PG_HBA"
+
+# Explicitly set default client_encoding
+echo "client_encoding = utf8" >> "$NODE1_PG_CONF"
+
+service postgresql restart
+
+echo "Successfully created PostgreSQL cluster"
 
 echo "Cleaning for box exporting"
 
