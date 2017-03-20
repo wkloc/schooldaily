@@ -1,10 +1,12 @@
 package com.pgs.repository;
 
 import com.pgs.model.Users;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,8 +14,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by wkloc on 2017-02-24.
  */
+//@Ignore
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@TestPropertySource(locations = "classpath:application.properties")
+//@DataJpaTest
+//@AutoConfigureTestDatabase(replace = NONE)
+
+    @Ignore
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@TestPropertySource(locations = "classpath:application.properties")
+
+
 public class UserRepositoryIT extends AbstractRepositoryIT {
 
     private final static String USERNAME = "username";

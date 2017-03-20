@@ -26,12 +26,13 @@ public class UnsecuredController {
         return "LOGOUT message!";
     }
 
-    @Value("${mymessage}")
+    @Value("${my.message}")
     private String message;
 
     @RequestMapping("/message")
     @ResponseBody
     String getMessage() {
+        System.out.println();
         return this.message;
     }
 }
