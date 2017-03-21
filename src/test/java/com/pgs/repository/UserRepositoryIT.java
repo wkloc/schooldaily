@@ -1,6 +1,7 @@
 package com.pgs.repository;
 
 import com.pgs.model.Users;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by wkloc on 2017-02-24.
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
