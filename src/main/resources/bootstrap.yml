@@ -6,6 +6,6 @@ spring:
     active: dev
   cloud:
       config:
-        uri: https://localhost:8440
+        uri: http://localhost:8440
         username: cloudserveruser
         password: cloudserverpassword
