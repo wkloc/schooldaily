@@ -1,5 +1,4 @@
-#spring-boot:run -Dactiveprofile=dev
-#spring-boot:run -Dactiveprofile=prod
+# to switch profile run with: -Dspring.profiles.active=prod
 spring:
   application:
     name: schooldaily
