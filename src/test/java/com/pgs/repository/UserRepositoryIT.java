@@ -1,33 +1,23 @@
 package com.pgs.repository;
 
 import com.pgs.model.Users;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by wkloc on 2017-02-24.
  */
-//@Ignore
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//@TestPropertySource(locations = "classpath:application.properties")
-//@DataJpaTest
-//@AutoConfigureTestDatabase(replace = NONE)
 
-    @Ignore
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
-
-
-public class UserRepositoryIT extends AbstractRepositoryIT {
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class UserRepositoryIT {
 
     private final static String USERNAME = "username";
     private final static String PASSWORD = "password";
