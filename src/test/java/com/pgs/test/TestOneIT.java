@@ -31,7 +31,6 @@ public class TestOneIT {
     public void exampleTest() {
         String body = this.restTemplate.getForObject("/unsecure/message", String.class);
         assertThat(body).isEqualTo("Message from DEV server TEST");
-        fail();
     }
 
     @Test

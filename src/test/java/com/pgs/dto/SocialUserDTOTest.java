@@ -12,7 +12,6 @@ public class SocialUserDTOTest {
 
     @Test
     public void shouldCreateDto() {
-        fail();
         SocialUserDTO dto = new SocialUserDTO("ID", "test@mail.com", "firstname", "lastname", "image", ESocialType.FACEBOOK);
         assertEquals("ID", dto.getId());
         assertEquals("test@mail.com", dto.getEmail());
@@ -24,7 +23,6 @@ public class SocialUserDTOTest {
 
     @Test
     public void shouldCreateEmptyDto() {
-        fail();
         SocialUserDTO dto = new SocialUserDTO();
         assertNull(dto.getId());
         assertNull(dto.getEmail());
