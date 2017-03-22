@@ -25,10 +25,6 @@
         <skipIntegrationTests>false</skipIntegrationTests>
         <skipTests>false</skipTests>
         <postgresql.version>9.4-1200-jdbc41</postgresql.version>
-
-            <unit-tests.skip>false</unit-tests.skip>
-            <integration-tests.skip>true</integration-tests.skip>
-
     </properties>
 
     <dependencies>
@@ -148,42 +144,8 @@
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>integration</id>
-            <properties>
-                <unit-tests.skip>false</unit-tests.skip>
-                <integration-tests.skip>false</integration-tests.skip>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
-            <!--<plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
