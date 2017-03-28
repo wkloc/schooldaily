@@ -22,13 +22,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <skipIntegrationTests>false</skipIntegrationTests>
-        <skipTests>false</skipTests>
         <postgresql.version>9.4-1200-jdbc41</postgresql.version>
-
-            <unit-tests.skip>false</unit-tests.skip>
-            <integration-tests.skip>true</integration-tests.skip>
-
+        <skip.unit.tests>false</skip.unit.tests>
+        <skip.integration.tests>false</skip.integration.tests>
     </properties>
 
     <dependencies>
@@ -150,10 +146,21 @@
 
     <profiles>
         <profile>
-            <id>integration</id>
+            <id>unitowe</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <unit-tests.skip>false</unit-tests.skip>
-                <integration-tests.skip>false</integration-tests.skip>
+                <skip.integration.tests>true</skip.integration.tests>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+
+        </profile>
+        <profile>
+            <id>integr</id>
+            <properties>
+                <skip.integration.tests>false</skip.integration.tests>
+                <skip.unit.tests>true</skip.unit.tests>
             </properties>
         </profile>
     </profiles>
@@ -163,7 +170,7 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>${unit-tests.skip}</skipTests>
+                    <skipTests>${skip.unit.tests}</skipTests>
                     <excludes>
                         <exclude>**/*IT.java</exclude>
                     </excludes>
@@ -178,7 +185,7 @@
                             <goal>integration-test</goal>
                         </goals>
                         <configuration>
-                            <skipTests>${integration-tests.skip}</skipTests>
+                            <skipTests>${skip.integration.tests}</skipTests>
                             <includes>
                                 <include>**/*IT.class</include>
                             </includes>
@@ -186,97 +193,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--</plugin>-->
-            <!--<plugin>-->
-                <!--<groupId>org.jacoco</groupId>-->
-                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
-                <!--&lt;!&ndash;<version>0.7.8</version>&ndash;&gt;-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>pre-unit-test</id>-->
-                        <!--<goals>-->
-                            <!--<goal>prepare-agent</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>-->
-                            <!--<propertyName>surefireArgLine</propertyName>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>post-unit-test</id>-->
-                        <!--<phase>test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>report</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>-->
-                            <!--<outputDirectory>${basedir}/target/coverage-reports/site</outputDirectory>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--&lt;!&ndash; IT Tests &ndash;&gt;-->
-                    <!--<execution>-->
-                        <!--<id>pre-integration-test</id>-->
-                        <!--<phase>pre-integration-test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>prepare-agent</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<destFile>${basedir}/target/coverage-reports/jacoco-it.exec</destFile>-->
-                            <!--<propertyName>failsafeArgLine</propertyName>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                    <!--<execution>-->
-                        <!--<id>post-integration-test</id>-->
-                        <!--<phase>post-integration-test</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>report</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<dataFile>${basedir}/target/coverage-reports/jacoco-it.exec</dataFile>-->
-                            <!--<outputDirectory>${basedir}/target/coverage-reports/jacoco-it</outputDirectory>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--&lt;!&ndash;<version>2.15</version>&ndash;&gt;-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash; Sets the VM argument line used when unit tests are run. &ndash;&gt;-->
-                    <!--<argLine>${surefireArgLine}</argLine>-->
-                    <!--<excludes>-->
-                        <!--<exclude>**/*IT.java</exclude>-->
-                    <!--</excludes>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-failsafe-plugin</artifactId>-->
-                <!--&lt;!&ndash;<version>2.15</version>&ndash;&gt;-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>integration-tests</id>-->
-                        <!--<goals>-->
-                            <!--<goal>integration-test</goal>-->
-                            <!--<goal>verify</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--&lt;!&ndash; Sets the VM argument line used when integration tests are run. &ndash;&gt;-->
-                            <!--<argLine>${failsafeArgLine}</argLine>-->
-                            <!--<includes>-->
-                                <!--<include>**/*IT.java</include>-->
-                            <!--</includes>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
