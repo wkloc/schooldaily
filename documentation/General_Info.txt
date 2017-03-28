@@ -7,6 +7,21 @@ via browser hit https://localhost:8445/client/user (dev)
                 https://localhost:8445/client/user2 (dev)
                 https://localhost:8445/client/logout
 
+Run config:
+    Spring boot (application):
+        dev: com.pgs.SchooldailyApplication
+        prod: com.pgs.SchooldailyApplication -Dspring.profiles.active=prod
+    maven (integration tests):
+        dev: clean verify -P integr
+        prod: clean verify -P integr -Dspring.profiles.active=prod
+    maven (unit tests):
+        dev: clean test -P unitowe
+
+Create jar:
+    clean package -DskipIts
+Run:
+    java -jar schooldaily-0.0.1-SNAPSHOT.jar
+
 postman:
 - to get access token with grant_type password
 POST https://localhost:8443/oauth/token?username=user&password=admin&grant_type=password
@@ -26,5 +41,6 @@ with Authorization:
 GET https://localhost:8443/secure/user2
 Headers:
 Authorization: Bearer 6f714b4b-9404-4822-9567-c5f412a07c3b (access token get previously)
+
 
 

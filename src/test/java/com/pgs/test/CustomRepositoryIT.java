@@ -17,20 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestOneIT {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+public class CustomRepositoryIT {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Test
-    public void exampleTest() {
-        String body = this.restTemplate.getForObject("/unsecure/message", String.class);
-        assertThat(body).isEqualTo("Message from DEV server TEST");
-    }
 
     @Test
     public void repoTest() {

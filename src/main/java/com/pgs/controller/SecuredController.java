@@ -1,6 +1,8 @@
 package com.pgs.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,10 @@ public class SecuredController {
         return locale.getCountry() + " (only for ADMIN)";
     }
 
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<String> getString(@PathVariable Integer id) {
+        return new ResponseEntity<>("string" + id, HttpStatus.OK);
+    }
 }
 
 
