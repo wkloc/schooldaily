@@ -22,6 +22,9 @@ Create jar:
 Run:
     java -jar schooldaily-0.0.1-SNAPSHOT.jar
 
+
+Swagger2: https://localhost:8443/documentation/swagger-ui.html (Basic auth secured only - admin/admin)
+
 postman:
 - to get access token with grant_type password
 POST https://localhost:8443/oauth/token?username=user&password=admin&grant_type=password

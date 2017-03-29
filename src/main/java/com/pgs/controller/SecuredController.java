@@ -18,12 +18,12 @@ import java.util.Map;
 @RequestMapping("/secure")
 public class SecuredController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping()
     public String hello() {
         return "Hello from protected resource!";
     }
 
-    @RequestMapping(value = "/user2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/user2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Principal resource(Principal principal) {
         return principal;
     }
@@ -34,7 +34,7 @@ public class SecuredController {
         return "facebook end point";
     }
 
-    @RequestMapping({"/user", "/me"})
+    @GetMapping({"/user", "/me"})
     public Map<String, String> user(Principal principal) {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("name", principal.getName()); //facebook id also
@@ -42,12 +42,12 @@ public class SecuredController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping(value = "/country", method = RequestMethod.GET)
+    @GetMapping(value = "/country")
     public String country(Locale locale) {
         return locale.getCountry() + " (only for ADMIN)";
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @GetMapping(value = "{id}")
     public ResponseEntity<String> getString(@PathVariable Integer id) {
         return new ResponseEntity<>("string" + id, HttpStatus.OK);
     }
