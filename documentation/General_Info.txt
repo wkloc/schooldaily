@@ -17,6 +17,7 @@ Run config:
     maven (unit tests):
         dev: clean test -P unitowe
 
+
 Create jar:
     clean package -DskipIts
 Run:
