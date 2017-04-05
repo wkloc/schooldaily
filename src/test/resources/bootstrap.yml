@@ -9,7 +9,7 @@ spring:
 #        uri: https://localhost:8440
 #disabled HTTPS because of  Could not locate PropertySource: I/O error on GET request for "https://localhost:8440/schooldaily/dev":
 #java.security.cert.CertificateException: No name matching localhost found; nested exception is
-# javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No name matching localhost found
+#javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No name matching localhost found
         uri: http://localhost:8440
         username: cloudserveruser
         password: cloudserverpassword
