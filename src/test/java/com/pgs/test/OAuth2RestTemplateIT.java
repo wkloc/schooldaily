@@ -6,6 +6,7 @@ package com.pgs.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,27 +25,28 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
+//@Ignore
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class OAuth2RestTemplateIT {
 
-    @Value("${work.server.protocol}")
+    @Value("${schooldaily.server.protocol}")
     protected String oauthServerProtocol;
-    @Value("${work.server.domain}")
+    @Value("${schooldaily.server.domain}")
     protected String oauthServerDomain;
-    @Value("${work.server.port}")
+    @Value("${schooldaily.server.port}")
     protected int oauthServerPort;
 
-    @Value("${test.oauth2.access.user}")
+    @Value("${schooldaily.oauth2.access.user}")
     protected String oauthResourceUsername;
-    @Value("${test.oauth2.access.password}")
+    @Value("${schooldaily.oauth2.access.password}")
     protected String oauthResourcePassword;
-    @Value("${test.oauth2.access.clientID}")
+    @Value("${schooldaily.oauth2.access.clientID}")
     protected String oauthResourceClientID;
-    @Value("${test.oauth2.access.clientSecret}")
+    @Value("${schooldaily.oauth2.access.clientSecret}")
     protected String oauthResourceClientSecret;
-    @Value("${test.oauth2.access.grantType}")
+    @Value("${schooldaily.oauth2.access.grantType}")
     protected String oauthResourceGrantType;
-    @Value("${test.oauth2.access.scope}")
+    @Value("${schooldaily.oauth2.access.scope}")
     protected String oauthResourceScope;
 
     private OAuth2RestTemplate restTemplate;

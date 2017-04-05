@@ -3,7 +3,7 @@ spring:
   application:
     name: schooldaily
   profiles:
-    active: dev
+    active: test
   cloud:
       config:
 #        uri: https://localhost:8440
