@@ -38,6 +38,22 @@ print_db_usage () {
   echo "  vagrant ssh"
   echo "  sudo su - postgres"
   echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -p 5433 -h localhost $APP_DB_NAME"
+  echo ""
+  echo "THIRD (Production) PostgreSQL database has been setup and can be accessed on port 15434"
+  echo "  Host: localhost"
+  echo "  Port: 15434"
+  echo "  Database: $APP_DB_NAME"
+  echo "  Username: $APP_DB_USER"
+  echo "  Password: $APP_DB_PASS"
+  echo ""
+  echo "Admin access to postgres user via VM:"
+  echo "  vagrant ssh"
+  echo "  sudo su - postgres"
+  echo ""
+  echo "psql access to app database user via VM:"
+  echo "  vagrant ssh"
+  echo "  sudo su - postgres"
+  echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -p 5434 -h localhost $APP_DB_NAME"
 }
 
 cat << EOF | sudo su postgres -c "psql -p 5432"
@@ -54,6 +70,19 @@ CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
 EOF
 
 cat << EOF | sudo su postgres -c "psql -p 5433"
+-- Create the database user:
+CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS';
+
+-- Create the database:
+CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
+                                  LC_COLLATE='en_US.UTF-8'
+                                  LC_CTYPE='en_US.UTF-8'
+                                  ENCODING='UTF8'
+                                  TEMPLATE=template1;
+\q
+EOF
+
+cat << EOF | sudo su postgres -c "psql -p 5434"
 -- Create the database user:
 CREATE USER $APP_DB_USER WITH PASSWORD '$APP_DB_PASS';
 

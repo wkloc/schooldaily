@@ -64,19 +64,33 @@ echo "Successfully created PostgreSQL dev virtual machine."
 echo "Installing PostgresSQL cluster"
 
 sudo pg_createcluster -D /var/lib/postgresql/9.4/node1 9.4 node1
+sudo pg_createcluster -D /var/lib/postgresql/9.4/node2 9.4 node2
 
 NODE1_PG_CONF="/etc/postgresql/$PG_VERSION/node1/postgresql.conf"
 NODE1_PG_HBA="/etc/postgresql/$PG_VERSION/node1/pg_hba.conf"
 NODE1_PG_DIR="/var/lib/postgresql/$PG_VERSION/node1"
 
+NODE2_PG_CONF="/etc/postgresql/$PG_VERSION/node2/postgresql.conf"
+NODE2_PG_HBA="/etc/postgresql/$PG_VERSION/node2/pg_hba.conf"
+NODE2_PG_DIR="/var/lib/postgresql/$PG_VERSION/node2"
+
 # Edit node1 postgresql.conf to change listen address to '*':
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$NODE1_PG_CONF"
+
+# Edit node2 postgresql.conf to change listen address to '*':
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" "$NODE2_PG_CONF"
 
 # Append to pg_hba.conf to add password auth:
 echo "host    all             all             all                     md5" >> "$NODE1_PG_HBA"
 
+# Append to pg_hba.conf to add password auth:
+echo "host    all             all             all                     md5" >> "$NODE2_PG_HBA"
+
 # Explicitly set default client_encoding
 echo "client_encoding = utf8" >> "$NODE1_PG_CONF"
+
+# Explicitly set default client_encoding
+echo "client_encoding = utf8" >> "$NODE2_PG_CONF"
 
 service postgresql restart
 
