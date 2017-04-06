@@ -1,0 +1,33 @@
+#1 
+login to Jenkins with defaul admin password: 962ff6ce851f4fe8affb2c87c39f23a1 
+and then create new user (eg pgsuser/pgspass) and press "finish and exit" button*
+
+*in case of any troubles with login, please login once again with default admin password above, and setup user under: Zarządzaj Jenkinsem/Zarządzaj użytkownikami menuitem
+
+#2
+install all default plugins
+
+#3
+set MAVEN_HOME in Jenkins (in: Globalne narzędzia do konfiguracji) with name M3 
+default: /usr/share/maven
+
+#4
+set JAVA_HOME in Jenkins (in: Globalne narzędzia do konfiguracji)
+default: /usr/lib/jvm/java-8-oracle
+
+#5
+set SMTP server settings (in: Skofiguruj Sysytem) for notification purposes
+ in sections 
+ 	-> Extended E-mail Notification: 
+ 		-> SMTP Server: poczta.pgs-soft.com
+ 		-> Default user E-mail suffix: @pgs-soft.com
+ 	-> E-mail Notification
+		-> SMTP Server: poczta.pgs-soft.com
+ 		-> Default user E-mail suffix: @pgs-soft.com
+
+#6
+Open Sonarqube server and login as admin/admin
+Then go to: Administration/Configuration/General Settings/Java menu item
+and fill following fields with values:
+field: JaCoCo / JaCoCo Reports -> /var/lib/jenkins/workspace/schooldailyFullBuild/target/coverage-reports/jacoco-unit.exec, /var/lib/jenkins/workspace/schooldailyFullBuild/target/coverage-reports/jacoco-it.exec
+field: JUnit / JUnit Reports -> /var/lib/jenkins/workspace/schooldailyFullBuild/target/coverage-reports/site/
